@@ -1,52 +1,46 @@
-#include "lcd/lcd.h"
 #include <string.h>
+
+#include "lcd/lcd.h"
 #include "utils.h"
 
-void Inp_init(void)
-{
-	rcu_periph_clock_enable(RCU_GPIOA);
-	rcu_periph_clock_enable(RCU_GPIOC);
+void Inp_init(void) {
+  rcu_periph_clock_enable(RCU_GPIOA);
+  rcu_periph_clock_enable(RCU_GPIOC);
 
-    gpio_init(GPIOA, GPIO_MODE_IPD, GPIO_OSPEED_50MHZ, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_6);
-    gpio_init(GPIOC, GPIO_MODE_IPD, GPIO_OSPEED_50MHZ, GPIO_PIN_13);
+  gpio_init(GPIOA, GPIO_MODE_IPD, GPIO_OSPEED_50MHZ,
+            GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 |
+                GPIO_PIN_6);
+  gpio_init(GPIOC, GPIO_MODE_IPD, GPIO_OSPEED_50MHZ, GPIO_PIN_13);
 }
 
-void IO_init(void)
-{
-    Inp_init(); // inport init
-    Lcd_Init(); // LCD init
+void IO_init(void) {
+  Inp_init();  // inport init
+  Lcd_Init();  // LCD init
 }
 
-int main(void)
-{
-    IO_init();         // init OLED
-    // YOUR CODE HERE
-    while (1)
-    {
-        LCD_Clear(BLACK);
-        LCD_ShowString(60,25,"TEST",WHITE);
-        if (Get_Button(JOY_LEFT))
-        {
-            LCD_ShowString(5,25,"L", BLUE);
-            //continue;
-        }
-        if (Get_Button(JOY_DOWN))
-        {
-            LCD_ShowString(25,45,"D", BLUE);
-        }
-        LCD_ShowString(5,5,"U:INOP",RED);
-        if (Get_Button(JOY_RIGHT))
-        {
-            LCD_ShowString(45,25,"R", BLUE);
-        }
-        if (Get_Button(JOY_CTR))
-        {
-            LCD_ShowString(25,25,"C", BLUE);
-        }
-        if (Get_Button(BUTTON_1))
-        {
-            LCD_ShowString(60,5,"SW1", BLUE);
-        }
-        LCD_ShowString(60,45,"SW2:INOP",RED);
+int main(void) {
+  IO_init();  // init OLED
+  // YOUR CODE HERE
+  while (1) {
+    LCD_Clear(BLACK);
+    LCD_ShowString(60, 25, "TEST", WHITE);
+    if (Get_Button(JOY_LEFT)) {
+      LCD_ShowString(5, 25, "L", BLUE);
+      // continue;
     }
+    if (Get_Button(JOY_DOWN)) {
+      LCD_ShowString(25, 45, "D", BLUE);
+    }
+    LCD_ShowString(5, 5, "U:INOP", RED);
+    if (Get_Button(JOY_RIGHT)) {
+      LCD_ShowString(45, 25, "R", BLUE);
+    }
+    if (Get_Button(JOY_CTR)) {
+      LCD_ShowString(25, 25, "C", BLUE);
+    }
+    if (Get_Button(BUTTON_1)) {
+      LCD_ShowString(60, 5, "SW1", BLUE);
+    }
+    LCD_ShowString(60, 45, "SW2:INOP", RED);
+  }
 }
