@@ -53,12 +53,21 @@ void gameSceneInit(int level, int box_num) {
       gameSceneState.gameMap[i][j] = MAP_EMPTY;
     }
   }
+  int boxCount = 0;
+  int targetCount = 0;
 
   for (int x = 0; x < MAP_HEIGHT; x++) {
     for (int y = 0; y < MAP_WIDTH; y++) {
       char ch = getMapChar(level, y, x);
       if (!isValidMapChar(ch)) {
         STOP_COLOR(RED);
+      }
+      if (ch == MAP_BOX) {
+        boxCount++;
+        if (boxCount > box_num) ch = MAP_EMPTY;
+      } else if (ch == MAP_TARGET) {
+        targetCount++;
+        if (targetCount > box_num) ch = MAP_EMPTY;
       }
       gameSceneState.gameMap[x][y] = ch;
       if (gameSceneState.gameMap[x][y] == MAP_PLAYER) {

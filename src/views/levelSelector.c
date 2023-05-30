@@ -22,25 +22,32 @@ void levelSelectorInit(void) {
   levelSelectorState.boxNum = 1;
 }
 
+void incrementValue(int *value, int max) { *value = 1 + (*value) % max; }
+
+void decrementValue(int *value, int max) {
+  *value = 1 + (*value - 2 + max) % max;
+}
+
 bool levelSelectorUpdate(int button_event) {
   switch (button_event) {
     case BUTTON_NONE:
       return FALSE;
     case JOY_UP:
-      levelSelectorState.currentLevel =
-          1 + (levelSelectorState.currentLevel) % MAX_LEVEL_NUM;
+      incrementValue(&levelSelectorState.currentLevel, MAX_LEVEL_NUM);
+      levelSelectorState.boxNum = 1;
       break;
     case JOY_DOWN:
-      levelSelectorState.currentLevel =
-          1 +
-          (levelSelectorState.currentLevel - 2 + MAX_LEVEL_NUM) % MAX_LEVEL_NUM;
+      decrementValue(&levelSelectorState.currentLevel, MAX_LEVEL_NUM);
+      levelSelectorState.boxNum = 1;
       break;
     case JOY_LEFT:
-      levelSelectorState.boxNum =
-          1 + (levelSelectorState.boxNum - 2 + MAX_BOX_NUM) % MAX_BOX_NUM;
+      decrementValue(&levelSelectorState.boxNum,
+                     levelMaxBoxNum[levelSelectorState.currentLevel - 1]);
       break;
     case JOY_RIGHT:
-      levelSelectorState.boxNum = 1 + (levelSelectorState.boxNum) % MAX_BOX_NUM;
+      incrementValue(&levelSelectorState.boxNum,
+                     levelMaxBoxNum[levelSelectorState.currentLevel - 1]);
+
       break;
     case BUTTON_1:
       switchToGameScene(levelSelectorState.currentLevel,
