@@ -3,7 +3,7 @@
 #include "lcd/lcd.h"
 #include "utils.h"
 #include "windows.h"
-#include "views/gameScene.h"
+#include "views/levelSelector.h"
 
 void Inp_init(void) {
   rcu_periph_clock_enable(RCU_GPIOA);
@@ -21,7 +21,7 @@ void IO_init(void) {
 
 int main(void) {
   IO_init();  // init OLED
-  gameSceneInit();
-  switchToGameScene();
+  // switchToGameScene();
+  switchToLevelSelector();
   windowsStart();
 }
