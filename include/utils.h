@@ -7,7 +7,6 @@
 #error INVALID_BOARD_VER
 #endif
 
-#define BUTTON_NONE -1
 #if BOARD_VER == 0
 
 #define JOY_LEFT GPIO_PIN_0
@@ -32,8 +31,13 @@
 
 #endif
 
-int Get_Event(void);
+#define BUTTON_NONE -1
+
+#define BUTTON_DEBOUNCE_MS 30
+
 int Get_Button(int ch);
+int Get_Raw_Event(void);
+int Get_Event(void);
 int Get_BOOT0(void);
 
 #endif
