@@ -10,7 +10,6 @@ WindowsHandle windowsHandle = {NULL, NULL};
 
 void nextFrame(void) {
   if (windowsHandle.windowRender != NULL && windowsHandle.windowIsUpdated) {
-    LCD_Clear(BLACK);
     (*windowsHandle.windowRender)();
     windowsHandle.windowIsUpdated = FALSE;
   }

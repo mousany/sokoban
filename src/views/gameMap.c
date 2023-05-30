@@ -2,10 +2,12 @@
 
 // clang-format off
 const char levelMap[MAX_LEVEL_NUM][MAP_WIDTH * MAP_HEIGHT] = {
-    "                         @                  x                                                                      O         #                                                                          ",
-    "                         @                  x                                                                      O         #                                                                          ",
-    "                         @                  x                                                                      O         #                                                                          "
+    "     ##############       x          x       ##############                       @     O  O  O  O                           ##############       x          x       ##############                     ",
+    "    #x         #        #          #    #####  #x      #####       ##      O  O @      x#    x#  O             ###  O          ###   O    O #####    x#    #####    #          #        #         x#    ",
+    "x                  x  ###  ##  ##  ###      #  #x  x#  #    #####  ######  #####@  O   O    O    O    O     O  O    O   #####  ######  #####    #  #x  x#  #      ###  ##  ##  ###  x                  x"
 };
+
+
 // clang-format on
 
 char getMapChar(int level, int x, int y) {

@@ -53,6 +53,7 @@ bool levelSelectorUpdate(int button_event) {
 }
 
 void levelSelectorRender() {
+  LCD_Clear(BLACK);
   char str[30];
   sprintf(str, "Lv: %d", levelSelectorState.currentLevel);
   LCD_ShowString(10, 15, str, BLUE);

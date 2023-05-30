@@ -24,6 +24,7 @@ bool scoreBoardUpdate(int button_event) {
 }
 
 void scoreBoardRender() {
+  LCD_Clear(BLACK);
   char str[30];
   sprintf(str, "Level: %d", scoreBoardState.level);
   LCD_ShowString(10, 15, str, BLUE);

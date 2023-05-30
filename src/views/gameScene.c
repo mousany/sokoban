@@ -32,6 +32,7 @@ struct GameSceneState {
   int box_num;
 
   char gameMap[MAP_HEIGHT][MAP_WIDTH];
+  char lastGameMap[MAP_HEIGHT][MAP_WIDTH];
   int playerX;
   int playerY;
 };
@@ -48,6 +49,7 @@ void gameSceneInit(int level, int box_num) {
 
   for (int i = 0; i < MAP_HEIGHT; i++) {
     for (int j = 0; j < MAP_WIDTH; j++) {
+      gameSceneState.lastGameMap[i][j] = -1;
       gameSceneState.gameMap[i][j] = MAP_EMPTY;
     }
   }
@@ -125,6 +127,10 @@ bool gameSceneUpdate(int button_event) {
 void gameSceneRender(void) {
   for (int x = 0; x < MAP_WIDTH; x++) {
     for (int y = 0; y < MAP_HEIGHT; y++) {
+      if (gameSceneState.gameMap[y][x] == gameSceneState.lastGameMap[y][x]) {
+        continue;
+      }
+      gameSceneState.lastGameMap[y][x] = gameSceneState.gameMap[y][x];
       switch (gameSceneState.gameMap[y][x]) {
         case MAP_EMPTY:
           LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, empty_bmp);
@@ -171,6 +177,7 @@ bool gameSceneIsWin(void) {
 
 void switchToGameScene(int level, int box_num) {
   gameSceneInit(level, box_num);
+  LCD_Clear(BLACK);
   setWindowUpdate(&gameSceneUpdate);
   setWindowRender(&gameSceneRender);
 }
