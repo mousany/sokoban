@@ -6,6 +6,23 @@
 #include "gd32vf103.h"
 #include "lcd/lcd.h"
 #include "utils.h"
+#include "views/gameMap.h"
+
+#define STOP_COLOR(COLOR) \
+  LCD_Clear(COLOR);       \
+  while (1)               \
+    ;
+
+#define RAISE_ERROR \
+  LCD_Clear(RED);   \
+  while (1)         \
+    ;
+
+#define RAISE_EXCEPTION(EXCEPTION) \
+  LCD_Clear(RED);   \
+  LCD_ShowString(10, 15, EXCEPTION, BLUE); \
+  while (1)         \
+    ;
 
 struct GameSceneState {
   int player_step;
@@ -18,23 +35,38 @@ struct GameSceneState {
 
 struct GameSceneState gameSceneState;
 
-void gameSceneInit(void) {
+void gameSceneInit(int level, int box_num) {
   gameSceneState.player_step = 0;
   gameSceneState.time = 0;
 
-  gameSceneState.playerX = 0;
-  gameSceneState.playerY = 0;
+  gameSceneState.playerX = -1;
+  gameSceneState.playerY = -1;
 
   for (int i = 0; i < MAP_HEIGHT; i++) {
     for (int j = 0; j < MAP_WIDTH; j++) {
       gameSceneState.gameMap[i][j] = MAP_EMPTY;
     }
   }
-  gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY] =
-      MAP_PLAYER;
 
-  gameSceneState.gameMap[1][1] = MAP_WALL;
-  gameSceneState.gameMap[2][2] = MAP_BOX;
+  for (int x = 0; x < MAP_HEIGHT; x++) {
+    for (int y = 0; y < MAP_WIDTH; y++) {
+      char ch = getMapChar(level, y, x);
+      if (!isValidMapChar(ch)) {
+        STOP_COLOR(RED);
+      }
+      gameSceneState.gameMap[x][y] = ch;
+      if (gameSceneState.gameMap[x][y] == MAP_PLAYER) {
+        if (gameSceneState.playerX != -1) {
+          STOP_COLOR(BLUE);
+        }
+        gameSceneState.playerX = x;
+        gameSceneState.playerY = y;
+      }
+    }
+  }
+  if (gameSceneState.playerX == -1) {
+    STOP_COLOR(GREEN);
+  }
 }
 
 bool gameSceneUpdate(int button_event) {
@@ -54,23 +86,30 @@ bool gameSceneUpdate(int button_event) {
   int nextX = gameSceneState.playerX + dirX;
   int nextY = gameSceneState.playerY + dirY;
 
-  if (!isPosValid(nextX, nextY) || isWall(nextX, nextY)) return;
+  if (!isPosValid(nextX, nextY) || isWall(nextX, nextY)) return FALSE;
 
   if (isBox(nextX, nextY)) {
     int nextBoxX = nextX + dirX;
     int nextBoxY = nextY + dirY;
 
-    if (!isPosValid(nextBoxX, nextBoxY) || !isEmpty(nextBoxX, nextBoxY)) return;
+    if (!isPosValid(nextBoxX, nextBoxY) || !isEmpty(nextBoxX, nextBoxY))
+      return FALSE;
 
-    gameSceneState.gameMap[nextBoxX][nextBoxY] = MAP_BOX;
+    gameSceneState.gameMap[nextBoxX][nextBoxY] =
+        moveInBox(gameSceneState.gameMap[nextBoxX][nextBoxY]);
+
+    gameSceneState.gameMap[nextX][nextY] =
+        moveOutBox(gameSceneState.gameMap[nextX][nextY]);
   }
 
-  gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY] =
-      MAP_EMPTY;
+  gameSceneState
+      .gameMap[gameSceneState.playerX][gameSceneState.playerY] = moveOutPlayer(
+      gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY]);
   gameSceneState.playerX = nextX;
   gameSceneState.playerY = nextY;
-  gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY] =
-      MAP_PLAYER;
+  gameSceneState
+      .gameMap[gameSceneState.playerX][gameSceneState.playerY] = moveInPlayer(
+      gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY]);
 
   gameSceneState.player_step++;
   return TRUE;
@@ -85,17 +124,69 @@ void gameSceneRender(void) {
   }
 }
 
+bool gameSceneIsWin(void) {
+  for (int x = 0; x < MAP_WIDTH; x++) {
+    for (int y = 0; y < MAP_HEIGHT; y++) {
+      if (gameSceneState.gameMap[y][x] == MAP_BOX) return FALSE;
+    }
+  }
+  return TRUE;
+}
+
 void switchToGameScene(int level, int box_num) {
-  gameSceneInit();
+  gameSceneInit(level, box_num);
   setWindowUpdate(&gameSceneUpdate);
   setWindowRender(&gameSceneRender);
 }
 
-bool isBox(int x, int y) { return gameSceneState.gameMap[x][y] == MAP_BOX; }
+char moveInBox(char ch) {
+  if (ch == MAP_EMPTY) return MAP_BOX;
+  if (ch == MAP_TARGET) return MAP_BOX_ON_TARGET;
+  RAISE_ERROR;
+}
+
+char moveOutBox(char ch) {
+  if (ch == MAP_BOX) return MAP_EMPTY;
+  if (ch == MAP_BOX_ON_TARGET) return MAP_TARGET;
+  RAISE_ERROR;
+}
+
+char moveInPlayer(char ch) {
+  if (ch == MAP_EMPTY) return MAP_PLAYER;
+  if (ch == MAP_TARGET) return MAP_PLAYER_ON_TARGET;
+  RAISE_ERROR;
+}
+
+char moveOutPlayer(char ch) {
+  if (ch == MAP_PLAYER) return MAP_EMPTY;
+  if (ch == MAP_PLAYER_ON_TARGET) return MAP_TARGET;
+  RAISE_EXCEPTION("MOVE OUT PLAYER ERROR")
+}
+
+bool isBox(int x, int y) {
+  return gameSceneState.gameMap[x][y] == MAP_BOX ||
+         gameSceneState.gameMap[x][y] == MAP_BOX_ON_TARGET;
+}
+bool isTarget(int x, int y) {
+  return gameSceneState.gameMap[x][y] == MAP_TARGET ||
+         gameSceneState.gameMap[x][y] == MAP_BOX_ON_TARGET;
+}
+bool isPlayer(int x, int y) {
+  return gameSceneState.gameMap[x][y] == MAP_PLAYER ||
+         gameSceneState.gameMap[x][y] == MAP_PLAYER_ON_TARGET;
+}
 
 bool isWall(int x, int y) { return gameSceneState.gameMap[x][y] == MAP_WALL; }
 
-bool isEmpty(int x, int y) { return gameSceneState.gameMap[x][y] == MAP_EMPTY; }
+bool isEmpty(int x, int y) {
+  return gameSceneState.gameMap[x][y] == MAP_EMPTY ||
+         gameSceneState.gameMap[x][y] == MAP_TARGET;
+}
+
+bool isValidMapChar(char ch) {
+  return ch == MAP_EMPTY || ch == MAP_WALL || ch == MAP_TARGET ||
+         ch == MAP_PLAYER || ch == MAP_BOX;
+}
 
 bool isPosValid(int x, int y) {
   return x >= 0 && x < MAP_HEIGHT && y >= 0 && y < MAP_WIDTH;
