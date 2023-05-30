@@ -6,35 +6,38 @@
 #include "systick.h"
 #include "utils.h"
 
-WindowsHandle windowsHandle = {NULL, NULL, 0};
+WindowsHandle windowsHandle = {NULL, NULL};
 
 void nextFrame(void) {
-  if (windowsHandle.windowUpdate != NULL) {
-    (*windowsHandle.windowUpdate)(Get_Event());
-  }
-  if (windowsHandle.windowRender != NULL) {
+  if (windowsHandle.windowRender != NULL && windowsHandle.windowIsUpdated) {
+    LCD_Clear(BLACK);
     (*windowsHandle.windowRender)();
+    windowsHandle.windowIsUpdated = FALSE;
+  }
+  if (windowsHandle.windowUpdate != NULL) {
+    windowsHandle.windowIsUpdated = (*windowsHandle.windowUpdate)(Get_Event());
   }
 }
 
 void windowsInit(void) {
   windowsHandle.windowUpdate = NULL;
   windowsHandle.windowRender = NULL;
-  windowsHandle.state = 0;
+  windowsHandle.windowIsUpdated = TRUE;
 }
 
 void windowsStart(void) {
   while (1) {
     nextFrame();
-    LCD_Clear(BLACK);
     // delay_1ms(30);
   }
 }
 
-void setWindowUpdate(void (*windowUpdate)(int)) {
+void setWindowUpdate(bool (*windowUpdate)(int)) {
   windowsHandle.windowUpdate = windowUpdate;
+  windowsHandle.windowIsUpdated = TRUE;
 }
 
 void setWindowRender(void (*windowRender)(void)) {
   windowsHandle.windowRender = windowRender;
+  windowsHandle.windowIsUpdated = TRUE;
 }

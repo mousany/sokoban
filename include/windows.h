@@ -3,10 +3,11 @@
 
 #include <stddef.h>
 
+#include "gd32vf103.h"
 typedef struct {
-  void (*windowUpdate)(int);
+  bool (*windowUpdate)(int);
   void (*windowRender)(void);
-  int state;
+  bool windowIsUpdated;
 } WindowsHandle;
 
 extern WindowsHandle windowsHandle;
@@ -15,7 +16,7 @@ void nextFrame(void);
 
 void windowsStart(void);
 
-void setWindowUpdate(void (*windowUpdate)(int));
+void setWindowUpdate(bool (*windowUpdate)(int));
 
 void setWindowRender(void (*windowRender)(void));
 

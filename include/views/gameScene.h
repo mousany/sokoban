@@ -1,11 +1,13 @@
 #ifndef __GAMESCENE_H
 #define __GAMESCENE_H
 
-#include "gd32vf103_gpio.h"
+#include "gd32vf103.h"
 #include "windows.h"
 
 #define MAP_WIDTH 20
 #define MAP_HEIGHT 10
+
+#define MAP_PIX_WIDTH 7
 
 #define MAP_EMPTY ' '
 #define MAP_WALL '#'
@@ -18,7 +20,7 @@ extern struct GameSceneState gameSceneState;
 
 void gameSceneInit(void);
 
-void gameSceneUpdate(int button);
+bool gameSceneUpdate(int button_event);
 
 void gameSceneRender(void);
 
