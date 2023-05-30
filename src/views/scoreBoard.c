@@ -16,7 +16,7 @@ struct ScoreBoardState scoreBoardState;
 void scoreBoardInit(void) {}
 
 bool scoreBoardUpdate(int button_event) {
-  if (Get_Button(BUTTON_1)) {
+  if (button_event == BUTTON_1) {
     switchToLevelSelector();
     return TRUE;
   }
