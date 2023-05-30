@@ -2,8 +2,8 @@
 
 #include "lcd/lcd.h"
 #include "utils.h"
-#include "windows.h"
 #include "views/levelSelector.h"
+#include "windows.h"
 
 void Inp_init(void) {
   rcu_periph_clock_enable(RCU_GPIOA);
