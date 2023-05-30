@@ -3,11 +3,16 @@
 
 #include "windows.h"
 
-struct LevelSelectorState {};
+#define MAX_LEVEL_NUM 5
+#define MAX_BOX_NUM 3
+
+struct LevelSelectorState;
+
+extern struct LevelSelectorState levelSelectorState;
 
 void levelSelectorInit(void);
 
-void levelSelectorUpdate();
+bool levelSelectorUpdate(int button_event);
 
 void levelSelectorRender();
 
