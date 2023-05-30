@@ -2,7 +2,7 @@
 
 #include "lcd/lcd.h"
 #include "utils.h"
-#include "views/levelSelector.h"
+#include "views/welcomeScene.h"
 #include "windows.h"
 
 void Inp_init(void) {
@@ -21,7 +21,6 @@ void IO_init(void) {
 
 int main(void) {
   IO_init();  // init OLED
-  // switchToGameScene();
-  switchToLevelSelector();
+  switchToWelcomeScene();
   windowsStart();
 }
