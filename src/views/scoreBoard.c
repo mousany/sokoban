@@ -1,7 +1,9 @@
 #include "views/scoreBoard.h"
 
 #include "lcd/lcd.h"
+#include "utils.h"
 #include "views/gameScene.h"
+#include "views/levelSelector.h"
 #include "windows.h"
 
 struct ScoreBoardState {
@@ -13,7 +15,13 @@ struct ScoreBoardState scoreBoardState;
 
 void scoreBoardInit(void) {}
 
-bool scoreBoardUpdate(int button_event) { return FALSE; }
+bool scoreBoardUpdate(int button_event) {
+  if (Get_Button(BUTTON_1)) {
+    switchToLevelSelector();
+    return TRUE;
+  }
+  return FALSE;
+}
 
 void scoreBoardRender() {
   char str[30];
