@@ -18,8 +18,8 @@ struct LevelSelectorState levelSelectorState = {
 };
 
 void levelSelectorInit(void) {
-  levelSelectorState.currentLevel = 0;
-  levelSelectorState.boxNum = 0;
+  levelSelectorState.currentLevel = 1;
+  levelSelectorState.boxNum = 1;
 }
 
 bool levelSelectorUpdate(int button_event) {
