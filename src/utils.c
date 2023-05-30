@@ -48,6 +48,7 @@ int Get_Event(void) {
   } else {
     lastEvent = event;
     lastTime = currentTime;
+    return event;
   }
   return BUTTON_NONE;
 }
