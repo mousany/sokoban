@@ -33,7 +33,7 @@
 
 #define BUTTON_NONE -1
 
-#define BUTTON_DEBOUNCE_MS 30
+#define BUTTON_DEBOUNCE_MS 300
 
 int Get_Button(int ch);
 int Get_Raw_Event(void);
