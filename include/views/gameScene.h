@@ -25,6 +25,8 @@ bool gameSceneUpdate(int button_event);
 
 void gameSceneRender(void);
 
+bool gameSceneIsWin();
+
 void switchToGameScene(int level, int box_num);
 
 char moveInBox(char ch);

@@ -7,6 +7,7 @@
 #include "lcd/lcd.h"
 #include "utils.h"
 #include "views/gameMap.h"
+#include "views/scoreBoard.h"
 
 #define STOP_COLOR(COLOR) \
   LCD_Clear(COLOR);       \
@@ -18,15 +19,16 @@
   while (1)         \
     ;
 
-#define RAISE_EXCEPTION(EXCEPTION) \
-  LCD_Clear(RED);   \
+#define RAISE_EXCEPTION(EXCEPTION)         \
+  LCD_Clear(RED);                          \
   LCD_ShowString(10, 15, EXCEPTION, BLUE); \
-  while (1)         \
+  while (1)                                \
     ;
 
 struct GameSceneState {
   int player_step;
-  int time;
+  int level;
+  int box_num;
 
   char gameMap[MAP_HEIGHT][MAP_WIDTH];
   int playerX;
@@ -37,7 +39,8 @@ struct GameSceneState gameSceneState;
 
 void gameSceneInit(int level, int box_num) {
   gameSceneState.player_step = 0;
-  gameSceneState.time = 0;
+  gameSceneState.level = level;
+  gameSceneState.box_num = box_num;
 
   gameSceneState.playerX = -1;
   gameSceneState.playerY = -1;
@@ -112,6 +115,9 @@ bool gameSceneUpdate(int button_event) {
       gameSceneState.gameMap[gameSceneState.playerX][gameSceneState.playerY]);
 
   gameSceneState.player_step++;
+  if (gameSceneIsWin()) {
+    switchToScoreBoard(gameSceneState.level, gameSceneState.player_step);
+  }
   return TRUE;
 }
 
