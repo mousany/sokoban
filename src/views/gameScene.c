@@ -79,14 +79,16 @@ bool gameSceneUpdate(int button_event) {
 void gameSceneRender(void) {
   for (int x = 0; x < MAP_WIDTH; x++) {
     for (int y = 0; y < MAP_HEIGHT; y++) {
-      LCD_ShowChar(x * 8, y * 8, gameSceneState.gameMap[y][x], 0, WHITE);
+      LCD_ShowChar(x * MAP_PIX_WIDTH, y * MAP_PIX_WIDTH,
+                   gameSceneState.gameMap[y][x], 1, WHITE);
     }
   }
 }
 
-void switchToGameScene() {
-  windowsHandle.windowUpdate = &gameSceneUpdate;
-  windowsHandle.windowRender = &gameSceneRender;
+void switchToGameScene(int level, int box_num) {
+  gameSceneInit();
+  setWindowUpdate(&gameSceneUpdate);
+  setWindowRender(&gameSceneRender);
 }
 
 bool isBox(int x, int y) { return gameSceneState.gameMap[x][y] == MAP_BOX; }

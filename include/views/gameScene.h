@@ -24,7 +24,7 @@ bool gameSceneUpdate(int button_event);
 
 void gameSceneRender(void);
 
-void switchToGameScene();
+void switchToGameScene(int level, int box_num);
 
 bool isBox(int x, int y);
 
