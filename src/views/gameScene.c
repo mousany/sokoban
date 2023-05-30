@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "gd32vf103.h"
+#include "lcd/bmp.h"
 #include "lcd/lcd.h"
 #include "utils.h"
 #include "views/gameMap.h"
@@ -124,10 +125,39 @@ bool gameSceneUpdate(int button_event) {
 void gameSceneRender(void) {
   for (int x = 0; x < MAP_WIDTH; x++) {
     for (int y = 0; y < MAP_HEIGHT; y++) {
-      LCD_ShowChar(x * MAP_PIX_WIDTH, y * MAP_PIX_WIDTH,
-                   gameSceneState.gameMap[y][x], 1, WHITE);
+      switch (gameSceneState.gameMap[y][x]) {
+        case MAP_EMPTY:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, empty_bmp);
+          break;
+        case MAP_WALL:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, wall_bmp);
+          break;
+        case MAP_TARGET:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, target_bmp);
+          break;
+        case MAP_BOX:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, box_bmp);
+          break;
+        case MAP_PLAYER:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, player_bmp);
+          break;
+        case MAP_BOX_ON_TARGET:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE,
+                        boxOnTarget_bmp);
+          break;
+        case MAP_PLAYER_ON_TARGET:
+          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE,
+                        playerOnTarget_bmp);
+          break;
+        default:
+          RAISE_EXCEPTION("Invalid map char");
+      }
     }
   }
+  char str[30];
+  sprintf(str, "%d", gameSceneState.level);
+  LCD_ShowString(140, 0, "Lv", BLUE);
+  LCD_ShowString(142, 18, str, BLUE);
 }
 
 bool gameSceneIsWin(void) {

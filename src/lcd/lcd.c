@@ -638,3 +638,11 @@ void LCD_ShowLogo(void) {
     LCD_WR_DATA8(logo_bmp[i]);
   }
 }
+
+void LCD_ShowBlock(u16 x, u16 y, uint16_t *block_data) {
+  LCD_Address_Set(x, y, x + GAME_BLOCK_SIZE - 1, y + GAME_BLOCK_SIZE - 1);
+  for (int i = 0; i < 49; i++) {
+    // LCD_WR_DATA8(0x11);
+    LCD_WR_DATA(block_data[i]);
+  }
+}

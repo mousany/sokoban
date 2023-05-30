@@ -5,8 +5,6 @@
 #include "views/gameMap.h"
 #include "windows.h"
 
-#define MAP_PIX_WIDTH 7
-
 #define MAP_EMPTY ' '
 #define MAP_WALL '#'
 #define MAP_BOX 'O'
