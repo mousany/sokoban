@@ -2,9 +2,7 @@
 #define __LEVELSELECTOR_H
 
 #include "windows.h"
-
-#define MAX_LEVEL_NUM 5
-#define MAX_BOX_NUM 3
+#include "views/gameMap.h"
 
 struct LevelSelectorState;
 
