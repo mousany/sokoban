@@ -14,6 +14,6 @@ bool scoreBoardUpdate(int button_event);
 
 void scoreBoardRender();
 
-void switchToScoreBoard(int level, int score);
+void switchToScoreBoard(int level, int boxNum, int step);
 
 #endif  // __SCOREBOARD_H

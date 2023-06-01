@@ -8,7 +8,8 @@
 
 struct ScoreBoardState {
   int level;
-  int score;
+  int boxNum;
+  int step;
 };
 
 struct ScoreBoardState scoreBoardState;
@@ -26,15 +27,19 @@ bool scoreBoardUpdate(int button_event) {
 void scoreBoardRender() {
   LCD_Clear(BLACK);
   char str[30];
-  sprintf(str, "Level: %d", scoreBoardState.level);
-  LCD_ShowString(10, 15, str, BLUE);
-  sprintf(str, "Score: %d", scoreBoardState.score);
-  LCD_ShowString(10, 30, str, BLUE);
+  LCD_ShowStringBold(48, 10, "YOU WIN!", WHITE);
+  sprintf(str, "Lvl: %d", scoreBoardState.level);
+  LCD_ShowStringOverlap(56, 28, str, WHITE);
+  sprintf(str, "Box: %d", scoreBoardState.boxNum);
+  LCD_ShowStringOverlap(56, 43, str, WHITE);
+  sprintf(str, "Stp: %d", scoreBoardState.step);
+  LCD_ShowStringOverlap(56, 58, str, WHITE);
 }
 
-void switchToScoreBoard(int level, int score) {
+void switchToScoreBoard(int level, int boxNum, int step) {
   scoreBoardState.level = level;
-  scoreBoardState.score = score;
+  scoreBoardState.boxNum = boxNum;
+  scoreBoardState.step = step;
   setWindowRender(&scoreBoardRender);
   setWindowUpdate(&scoreBoardUpdate);
 }
