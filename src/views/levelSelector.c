@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+#include "lcd/bmp.h"
 #include "lcd/lcd.h"
 #include "utils.h"
 #include "views/gameScene.h"
@@ -61,11 +62,22 @@ bool levelSelectorUpdate(int button_event) {
 
 void levelSelectorRender() {
   LCD_Clear(BLACK);
+
+  LCD_ShowStringOverlap(36, 10, "Battle City", WHITE);
+  LCD_ShowStringOverlap(37, 10, "Battle City", WHITE);
+  LCD_ShowStringOverlap(37, 11, "Battle City", RED);
+  LCD_ShowStringOverlap(36, 11, "Battle City", WHITE);
+
   char str[30];
-  sprintf(str, "Lv: %d", levelSelectorState.currentLevel);
-  LCD_ShowString(10, 15, str, BLUE);
-  sprintf(str, "Box: %d", levelSelectorState.boxNum);
-  LCD_ShowString(10, 30, str, BLUE);
+  sprintf(str, "Lvl:  %d", levelSelectorState.currentLevel);
+  LCD_ShowBlock(100, 30, arrow_up_bmp);
+  LCD_ShowBlock(100, 51, arrow_down_bmp);
+  LCD_ShowStringOverlap(52, 35, str, WHITE);
+
+  sprintf(str, "Box:  %d", levelSelectorState.boxNum);
+  LCD_ShowBlock(90, 63, arrow_left_bmp);
+  LCD_ShowBlock(110, 63, arrow_right_bmp);
+  LCD_ShowStringOverlap(52, 58, str, WHITE);
 }
 
 void switchToLevelSelector() {

@@ -10,6 +10,10 @@ extern const uint16_t player_bmp[49];
 extern const uint16_t playerOnTarget_bmp[49];
 extern const uint16_t target_bmp[49];
 extern const uint16_t wall_bmp[49];
+extern const uint16_t arrow_up_bmp[49];
+extern const uint16_t arrow_down_bmp[49];
+extern const uint16_t arrow_left_bmp[49];
+extern const uint16_t arrow_right_bmp[49];
 
 extern const unsigned char logo_bmp[25600];
 
