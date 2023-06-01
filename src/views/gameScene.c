@@ -145,8 +145,8 @@ void gameSceneRender(void) {
   }
   char str[30];
   sprintf(str, "%d", gameSceneState.level);
-  LCD_ShowString(140, 0, "Lv", BLUE);
-  LCD_ShowString(142, 18, str, BLUE);
+  LCD_ShowString(140, 0, "Lv", WHITE);
+  LCD_ShowString(142, 18, str, WHITE);
 }
 
 bool gameSceneIsWin(void) {
