@@ -3,7 +3,10 @@
 
 #include "windows.h"
 
-#define WELCOME_TIMEOUT 3000
+#define WELCOME_TIMEOUT 12000
+#define MAX_WELCOME_BOX_NUM 6
+#define WELCOME_ANIMATION_INTERVAL 500
+#define WELCOME_ANIMATION_START 1000
 
 struct WelcomeSceneState;
 

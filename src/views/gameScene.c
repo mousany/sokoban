@@ -140,33 +140,7 @@ void gameSceneRender(void) {
         continue;
       }
       gameSceneState.lastGameMap[y][x] = gameSceneState.gameMap[y][x];
-      switch (gameSceneState.gameMap[y][x]) {
-        case MAP_EMPTY:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, empty_bmp);
-          break;
-        case MAP_WALL:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, wall_bmp);
-          break;
-        case MAP_TARGET:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, target_bmp);
-          break;
-        case MAP_BOX:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, box_bmp);
-          break;
-        case MAP_PLAYER:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, player_bmp);
-          break;
-        case MAP_BOX_ON_TARGET:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE,
-                        boxOnTarget_bmp);
-          break;
-        case MAP_PLAYER_ON_TARGET:
-          LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE,
-                        playerOnTarget_bmp);
-          break;
-        default:
-          RAISE_EXCEPTION("Invalid map char");
-      }
+      renderBlock(x, y, gameSceneState.gameMap[y][x]);
     }
   }
   char str[30];
@@ -189,6 +163,35 @@ void switchToGameScene(int level, int box_num) {
   LCD_Clear(BLACK);
   setWindowUpdate(&gameSceneUpdate);
   setWindowRender(&gameSceneRender);
+}
+
+void renderBlock(int x, int y, char ch) {
+  switch (ch) {
+    case MAP_EMPTY:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, empty_bmp);
+      break;
+    case MAP_WALL:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, wall_bmp);
+      break;
+    case MAP_TARGET:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, target_bmp);
+      break;
+    case MAP_BOX:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, box_bmp);
+      break;
+    case MAP_PLAYER:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, player_bmp);
+      break;
+    case MAP_BOX_ON_TARGET:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE, boxOnTarget_bmp);
+      break;
+    case MAP_PLAYER_ON_TARGET:
+      LCD_ShowBlock(x * GAME_BLOCK_SIZE, y * GAME_BLOCK_SIZE,
+                    playerOnTarget_bmp);
+      break;
+    default:
+      RAISE_EXCEPTION("Invalid map char");
+  }
 }
 
 char moveInBox(char ch) {
