@@ -146,10 +146,10 @@ void gameSceneRender(void) {
   }
   char str[30];
   sprintf(str, "%d", gameSceneState.level);
-  LCD_ShowString(142, 0, "Lv", WHITE);
+  LCD_ShowStringBold(142, 0, "Lv", WHITE);
   LCD_ShowString(150, 18, str, WHITE);
   sprintf(str, "%d", gameSceneState.box_num);
-  LCD_ShowString(142, 40, "Bx", WHITE);
+  LCD_ShowStringBold(142, 40, "Bx", WHITE);
   LCD_ShowString(150, 58, str, WHITE);
 }
 
