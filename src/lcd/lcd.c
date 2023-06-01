@@ -508,7 +508,7 @@ void LCD_ShowChar(u16 x, u16 y, u8 num, u8 mode, u16 color) {
   u8 temp;
   u8 pos, t;
   u16 x0 = x;
-  if (x > LCD_W - 8 || y > LCD_H - 16) return;  // Settings window
+  if (x > LCD_W - 8 || y > LCD_H - 16) return;   // Settings window
   num = num - ' ';                               // Get offset value
   LCD_Address_Set(x, y, x + 8 - 1, y + 16 - 1);  // Set cursor position
   if (!mode)                                     // Non-overlapping
@@ -574,6 +574,13 @@ void LCD_ShowStringOverlap(u16 x, u16 y, const u8 *p, u16 color) {
     x += 8;
     p++;
   }
+}
+
+void LCD_ShowStringBold(u16 x, u16 y, const u8 *p, u16 color) {
+  LCD_ShowStringOverlap(x, y, p, color);
+  LCD_ShowStringOverlap(x, y + 1, p, color);
+  LCD_ShowStringOverlap(x + 1, y, p, color);
+  LCD_ShowStringOverlap(x + 1, y + 1, p, color);
 }
 
 /******************************************************************************

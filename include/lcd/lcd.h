@@ -102,6 +102,7 @@ void LCD_DrawCircle(u16 x0,u16 y0,u8 r,u16 color);
 void LCD_ShowChar(u16 x,u16 y,u8 num,u8 mode,u16 color);
 void LCD_ShowString(u16 x,u16 y,const u8 *p,u16 color);
 void LCD_ShowStringOverlap(u16 x,u16 y,const u8 *p,u16 color);
+void LCD_ShowStringBold(u16 x,u16 y,const u8 *p,u16 color);
 u32 mypow(u8 m,u8 n);
 void LCD_ShowNum(u16 x,u16 y,u16 num,u8 len,u16 color);
 void LCD_ShowNum1(u16 x,u16 y,float num,u8 len,u16 color);
