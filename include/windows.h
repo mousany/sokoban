@@ -10,6 +10,7 @@ typedef struct {
   bool windowIsUpdated;
 } WindowsHandle;
 
+// Global windows handle
 extern WindowsHandle windowsHandle;
 
 void nextFrame(void);

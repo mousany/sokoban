@@ -24,3 +24,7 @@ int main(void) {
   switchToWelcomeScene();
   windowsStart();
 }
+
+/* - Going to March, at Tiananmen Square.
+ * - Why?
+ * - Why? I think it is my duty. */

@@ -52,6 +52,7 @@ void delay_1ms(uint32_t count) {
   } while (start_mtime == tmp);
 
   do {
+    // Wait for the desired number of mtime ticks
     delta_mtime = get_timer_value() - start_mtime;
   } while (delta_mtime < (SystemCoreClock / 4000.0 * count));
 }
