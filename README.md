@@ -1,22 +1,14 @@
-# Project 4: Longan Nano minigame
+# Sokoban
 
-This repo contains the framework code for your Project 4. 
+This repo contains the framework of the Sokoban game for the Longan Nano development board. And it is the final project of the course Computer Architecture I.
 
-In this project, you will be implementing a Pong game using the Longan Nano development board we've given to you. We've provided you a framework here.
+In this project, a Sokoban game is implemented on the Longan Nano development board. The game is based on the framework provided by the course. The framework is modified to support the game. The game is implemented in C language and RISC-V assembly, and is compiled by the RISC-V toolchain platformio.
 
-You can also choose to implement your own minigame.
+For full details of this project, please see course website.
 
-We hope this project will help you experience programming RISC-V on a real machine rather than in a simulator.
+## Project Structure
 
-For full details of this project, please see course website
-
-## PLEASE READ
-
-The projects are part of your design project worth 2 credit points. As such they run in parallel to the actual course. So be aware that the due date for project and homework might be very close to each other! Start early and do not procrastinate.
-
-## Download Framework
-
-Download the framework from gitlab and Check if you already have the following files after pulling.
+The project is based on the framework provided by the course. The framework is modified to support the game. The project structure is shown below.
 
 ```
 .
